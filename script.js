@@ -1,3 +1,5 @@
+ let modalQt = 1; //variavel criada para sempre começar o modal em 1.
+ 
  //Funçoes auxiliares criadas para facilitar a escrita do codigo e deixa-lo mais organizado.
  const c = (el)=>document.querySelector(el);
  const cs =(el)=>document.querySelectorAll(el);
@@ -15,14 +17,23 @@ pizzaJson.map((item, index)=>{
     pizzaItem.querySelector('.pizza-item--desc').innerHTML = item.description;
    // adicionando o modal e previnindo a açao de default da tag a.
     pizzaItem.querySelector('a').addEventListener('click', (e)=>{
-            e.preventDefault();
-            
-    //preenchimento das informaçoes do modal
-     let key = e.target.closest('.pizza-item').getAttribute('data-key');
+            e.preventDefault();           
+            modalQt = 1; //toda vez que o modal abrir o numero vai ser 1 na quantidade.           
+    //preenchimento das informaçoes do modal e abri-lo 
+    let key = e.target.closest('.pizza-item').getAttribute('data-key');   
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
         c('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
-        c('.pizzaInfo--pricearea').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
+        c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
+        c('.pizzaInfo--size.selected').classList.remove('selected');//reset de tamanho quando selecionamos um tamanho diferente de grande 
+        cs('.pizzaInfo--size').forEach((size, sizeIndex)=>{
+            if(sizeIndex == 2) {
+                size.classList.add('selected');//reset toda a vez que abrimos um modal com pizza diferente ja pre-selecionando o grande.
+            }
+            size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
+        });
+            
+        c('.pizzaInfo--qt').innerHTML = modalQt; // quantidade padrao ao abrir o modal.
 
     //animaçao criada para suavisar a açao do modal 
         c('.pizzaWindowArea').style.opacity = 0;
