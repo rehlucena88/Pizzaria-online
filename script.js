@@ -45,3 +45,16 @@ pizzaJson.map((item, index)=>{
 
     c('.pizza-area').append(pizzaItem);//usamos o append para clonar todos itens e nao substituir um por um.
 });
+
+// Eventos do modal
+//Funçao closeModal criada usamos o opacity para dar um efeito de animaçao e o timer para dar o display none.
+function closeModal() {
+    c('.pizzaWindowArea').style.opacity = 0;
+    setTimeout(()=>{
+        c('.pizzaWindowArea').style.display = 'none';
+    }, 500)
+};
+//Executa o closeModal quando clicado.
+cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=>{
+       item.addEventListener('click', closeModal);
+})
