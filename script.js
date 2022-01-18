@@ -1,4 +1,6 @@
- let modalQt = 1; //variavel criada para sempre começar o modal em 1.
+let cart = []; // variavel onde se adiciona os itens no carrinho.
+let modalQt = 1; //variavel criada para sempre começar o modal em 1.
+let modalKey = 0;
  
  //Funçoes auxiliares criadas para facilitar a escrita do codigo e deixa-lo mais organizado.
  const c = (el)=>document.querySelector(el);
@@ -20,7 +22,8 @@ pizzaJson.map((item, index)=>{
             e.preventDefault();           
             modalQt = 1; //toda vez que o modal abrir o numero vai ser 1 na quantidade.           
     //preenchimento das informaçoes do modal e abri-lo 
-    let key = e.target.closest('.pizza-item').getAttribute('data-key');   
+    let key = e.target.closest('.pizza-item').getAttribute('data-key');  
+        modalKey = key; //toda vez que se abre o modal preenche o id da pizza
         c('.pizzaBig img').src = pizzaJson[key].img;
         c('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
         c('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
@@ -75,4 +78,14 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex)=>{
         c('.pizzaInfo--size.selected').classList.remove('selected');
         size.classList.add('selected');
     });
+});
+//funçao adicionar ao carrinho
+c('.pizzaInfo--addButton').addEventListener('click', ()=>{
+        let size = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
+        cart.push({
+            id:pizzaJson[modalKey].id,
+            size,
+            Qt:modalQt
+        });
+    closeModal();
 });
