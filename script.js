@@ -82,10 +82,21 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex)=>{
 //funçao adicionar ao carrinho
 c('.pizzaInfo--addButton').addEventListener('click', ()=>{
         let size = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
-        cart.push({
-            id:pizzaJson[modalKey].id,
-            size,
-            Qt:modalQt
-        });
+    // criado identificador para o carrinho pois pizzas do mesmo tanho tem  que ficar juntas no obj.
+        let identifier = pizzaJson[modalKey].id+'@'+size;
+    //criado a verificaçao, se o item for igual identifier ele faz a condiçao
+        let keyCart = cart.findIndex((item)=>item.identifier == identifier);
+    // criado a condiçao, se o keyCart for maior que -1 ele adiciona a qt senao e le adicona umnovoitem ao carrinho.
+        if(keyCart > -1){
+            cart[keyCart].qt += modalQt;
+        }else{
+            cart.push({
+                identifier,
+                id:pizzaJson[modalKey].id,
+                size,
+                qt:modalQt
+            });
+        }
+       
     closeModal();
 });
